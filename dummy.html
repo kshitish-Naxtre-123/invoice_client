@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Invoice</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .highlight-label {
+        background-color: #f0f8ff; /* Light Alice Blue */
+        padding: 0.5rem;
+        border-radius: 4px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5" style="width: 90%">
+      <div class="card shadow-sm p-4">
+        <h3 class="card-title mb-4">Edit Invoice</h3>
+        <form id="invoice-form">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label for="invoice-type" class="form-label highlight-label"
+                >Invoice Type</label
+              >
+              <select id="inv_type_ID" name="invoice_type" class="form-select">
+                <option value="NI">NI</option>
+                <option value="EXP">EXP</option>
+                <option value="GeeSons">GeeSons</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="client" class="form-label highlight-label"
+                >Client</label
+              >
+              <select id="client" name="client" class="form-select">
+                <option value="Abel Joseph">Abel Joseph</option>
+                <option value="Adworth">Adworth</option>
+              </select>
+            </div>
+            <div class="d-flex" style="gap: 5px">
+              <div class="col-md-3">
+                <label for="company" class="form-label highlight-label"
+                  >Company</label
+                >
+                <select id="company" name="company" class="form-select">
+                  <option value="Gee Sons Knit Fab">Gee Sons Knit Fab</option>
+                  <option value="Naxtre">Naxtre</option>
+                  <option value="Naxtre Technologies Private Limited">
+                    Naxtre Technologies Private Limited
+                  </option>
+                </select>
+              </div>
+
+              <div class="col-md-3">
+                <label for="bank" class="form-label highlight-label"
+                  >Select Bank A/c</label
+                >
+                <select id="bank" name="bank" class="form-select">
+                  <option>HDFC BANK LTD</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="reoccurring" class="form-label highlight-label"
+                  >Enable Re-Occurring</label
+                >
+                <select id="reoccurring" name="reoccurring" class="form-select">
+                  <option value="NaxTre Technologies Private Limited">
+                    NaxTre Technologies Private Limited
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="invoice-id" class="form-label highlight-label"
+                >Invoice ID</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="invoice-id"
+                name="invoice-id"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="issue-date" class="form-label highlight-label"
+                >Issue Date</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="issue-date"
+                name="issue-date"
+              />
+            </div>
+            <div class="col-md-6">
+              <label for="invoice-no" class="form-label highlight-label"
+                >Invoice No</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="invoice-no"
+                name="invoice-no"
+              />
+            </div>
+
+            <div class="col-md-6">
+              <label for="due-date" class="form-label highlight-label"
+                >Due Date</label
+              >
+              <input
+                type="date"
+                class="form-control"
+                id="due-date"
+                name="due-date"
+              />
+            </div>
+            <div class="col-12">
+              <div class="table-responsive">
+                <table class="table table-bordered mt-3">
+                  <thead class="table-light">
+                    <tr>
+                      <th class="highlight-label">Title</th>
+                      <th class="highlight-label">Description</th>
+                      <th class="highlight-label">Quantity</th>
+                      <th class="highlight-label">Unit Price</th>
+                      <th class="highlight-label">Total Price</th>
+                      <th class="highlight-label">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="itemsTableBody">
+                    <tr>
+                      <td>  
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="items[0][title]"
+                          placeholder="Enter title"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="items[0][description]"
+                          placeholder="Enter description"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          name="items[0][quantity]"
+                          value="1"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="items[0][unit_price]"
+                          placeholder="Enter unit price"
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="text"
+                          class="form-control"
+                          name="items[0][total_price]"
+                          placeholder="Enter total price"
+                        />
+                      </td>
+                      <td class="text-center">
+                        <button
+                          type="button"
+                          class="btn btn-success btn-sm"
+                          onclick="addItem()"
+                        >
+                          +
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          onclick="removeItem(this)"
+                        >
+                          -
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="payment-received" class="form-label highlight-label"
+                >Payment Received</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="payment-received"
+                name="payment-received"
+                placeholder="$"
+              />
+            </div>
+            <div class="col-md-4">
+              <label for="fees" class="form-label highlight-label">Fees</label>
+              <input type="text" class="form-control" id="fees" name="fees" />
+            </div>
+            <div class="col-md-4">
+              <label for="gst" class="form-label highlight-label">GST</label>
+              <input
+                type="text"
+                class="form-control"
+                id="gst"
+                name="gst"
+                placeholder="%"
+              />
+            </div>
+            <div class="col-12 d-flex justify-content-between mt-4">
+              <button type="submit" class="btn btn-primary" onclick="downloadInvoice()">Download</button>
+              <button type="button" class="btn btn-secondary">Preview</button>
+              <button type="button" class="btn btn-info"> 
+                Preview without Header
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      let itemIndex = 1;
+
+      function addItem() {
+        const tableBody = document.getElementById("itemsTableBody");
+        const newRow = `
+          <tr>
+            <td><input type="text" class="form-control" name="items[${itemIndex}][title]" placeholder="Enter title" /></td>
+            <td><input type="text" class="form-control" name="items[${itemIndex}][description]" placeholder="Enter description" /></td>
+            <td><input type="number" class="form-control" name="items[${itemIndex}][quantity]" value="1" /></td>
+            <td><input type="text" class="form-control" name="items[${itemIndex}][unit_price]" placeholder="Enter unit price" /></td>
+            <td><input type="text" class="form-control" name="items[${itemIndex}][total_price]" placeholder="Enter total price" /></td>
+            <td class="text-center">
+              <button type="button" class="btn btn-success btn-sm" onclick="addItem()">+</button>
+              <button type="button" class="btn btn-danger btn-sm" onclick="removeItem(this)">-</button>
+            </td>
+          </tr>
+        `;
+        tableBody.insertAdjacentHTML("beforeend", newRow);
+        itemIndex++;
+      }
+
+      function removeItem(button) {
+        const row = button.parentElement.parentElement;
+        row.remove();
+      }
+      function downloadInvoice() {
+        const form = document.getElementById("invoice-form");
+        const formData = new FormData(form);
+
+        // Convert FormData to an object
+        const formObject = {};
+        formData.forEach((value, key) => {
+          if (!key.includes("items")) {
+            formObject[key] = value;
+          }
+        });
+
+        // Collect the items dynamically from the form
+        const items = [];
+        const rows = document.querySelectorAll("#itemsTableBody tr");
+        rows.forEach((row, index) => {
+          const item = {
+            title: formData.get(`items[${index}][title]`),
+            description: formData.get(`items[${index}][description]`),
+            quantity: formData.get(`items[${index}][quantity]`),
+            unit_price: formData.get(`items[${index}][unit_price]`),
+            total_price: formData.get(`items[${index}][total_price]`),
+          };
+          items.push(item);
+        });
+
+        // Add items to the formObject
+        formObject.items = items;
+
+        // Send the data to the server and download the PDF
+        fetch("http://localhost:8000/generate-invoice", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formObject),
+        })
+          .then((response) => response.blob()) // Get the PDF as a blob
+          .then((blob) => {
+            // Create a link element, download the blob as a file
+            const downloadLink = document.createElement("a");
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = "invoice.pdf";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink); // Remove the link after download
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
+      }
+    </script>
+    <script>
+      document
+        .getElementById("invoice-form")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the default form submission
+
+          // Create a FormData object from the form
+          const formData = new FormData(this);
+
+          // Convert FormData to a plain object, except for the items
+          const formObject = {};
+          formData.forEach((value, key) => {
+            if (!key.includes("items")) {
+              formObject[key] = value;
+            }
+          });
+
+          // Collect items dynamically from the table rows
+          const items = [];
+          document
+            .querySelectorAll("#itemsTableBody tr")
+            .forEach((row, index) => {
+              const item = {
+                title: row.querySelector(`[name="items[${index}][title]"]`)
+                  .value,
+                description: row.querySelector(
+                  `[name="items[${index}][description]"]`
+                ).value,
+                quantity: row.querySelector(
+                  `[name="items[${index}][quantity]"]`
+                ).value,
+                unit_price: row.querySelector(
+                  `[name="items[${index}][unit_price]"]`
+                ).value,
+                total_price: row.querySelector(
+                  `[name="items[${index}][total_price]"]`
+                ).value,
+              };
+              items.push(item);
+            });
+
+          // Add items array to the form object
+          formObject.items = items;
+
+          // Send data to the server using fetch
+          fetch("http://localhost:8000/submit-form", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formObject),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Success:", data);
+              // Handle success, e.g., show a success message
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+              // Handle error, e.g., show an error message
+            });
+        });
+    </script>
+  </body>
+</html>
