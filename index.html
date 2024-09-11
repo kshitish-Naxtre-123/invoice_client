@@ -367,10 +367,11 @@
 
         // Add items to the formObject
         formObject.items = items;
+
         try {
-          // Send the data to the server and download the PDF
+          // Send the data to the server to generate the PDF
           const generateInvoiceResponse = await fetch(
-            "http://localhost:5550/generate-invoice",
+            "http://3.6.200.239:5550/generate-invoice",
             {
               method: "POST",
               headers: {
@@ -385,36 +386,9 @@
           }
 
           const generateInvoiceData = await generateInvoiceResponse.json();
-          const filename = generateInvoiceData.path.split("\\").pop();
-          const downloadInvoiceResponse = await fetch(
-            `http://localhost:5550/download-pdf/${filename}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/pdf",
-                // Add any necessary headers here
-              },
-            }
-          );
-          if (!downloadInvoiceResponse.ok) {
-            throw new Error("Failed to download invoice");
-          }
+          const pdfUrl = generateInvoiceData.url; // Use the Cloudinary URL
+          window.open(pdfUrl, '_blank');
 
-          const pdfBlob = await downloadInvoiceResponse.blob();
-
-          // Create a blob URL to trigger the download
-          const url = window.URL.createObjectURL(pdfBlob);
-
-          // Create an anchor element and click it programmatically to start the download
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = filename; // Optional: Set the filename for the download
-          document.body.appendChild(a);
-          a.click();
-
-          // Clean up
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url); // Free up memory
         } catch (error) {
           console.error("Error generating or downloading invoice:", error);
         }
@@ -477,7 +451,7 @@
           formObject.items = items;
 
           // Send data to the server using fetch
-          fetch("http://localhost:5550/submit-form", {
+          fetch("http://3.6.200.239:5550/submit-form", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -527,7 +501,8 @@
         try {
           // Send the data to the server to generate the PDF
           const generateInvoiceResponse = await fetch(
-            "http://localhost:5550/generate-invoice",
+            "http://3.6.200.239:5550/generate-invoice",
+
             {
               method: "POST",
               headers: {
@@ -536,37 +511,18 @@
               body: JSON.stringify(formObject),
             }
           );
+          console.log("res",generateInvoiceResponse);
 
           if (!generateInvoiceResponse.ok) {
             throw new Error("Failed to generate invoice");
           }
 
           const generateInvoiceData = await generateInvoiceResponse.json();
-          const filename = generateInvoiceData.path.split("\\").pop();
-
-          // Fetch the PDF for preview (not download)
-          const previewInvoiceResponse = await fetch(
-            `http://localhost:5550/download-pdf/${filename}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/pdf",
-              },
-            }
-          );
-          if (!previewInvoiceResponse.ok) {
-            throw new Error("Failed to load invoice for preview");
-          }
-
-          const pdfBlob = await previewInvoiceResponse.blob();
-          const url = window.URL.createObjectURL(pdfBlob);
+          const pdfUrl = generateInvoiceData.url; // Use the Cloudinary URL
 
           // Open the PDF in a new tab
           const newTab = window.open();
-          newTab.location.href = url;
-
-          // Clean up the blob URL after some time
-          window.URL.revokeObjectURL(url);
+          newTab.location.href = pdfUrl;
         } catch (error) {
           console.error("Error generating or previewing invoice:", error);
         }
@@ -605,7 +561,7 @@
         try {
           // Send the data to the server to generate the PDF
           const generateInvoiceResponse = await fetch(
-            "http://localhost:5550/generate-wh-invoice",
+            "http://3.6.200.239:5550/generate-wh-invoice",
             {
               method: "POST",
               headers: {
@@ -619,36 +575,28 @@
             throw new Error("Failed to generate invoice");
           }
 
+
           const generateInvoiceData = await generateInvoiceResponse.json();
-          const filename = generateInvoiceData.path.split("\\").pop();
-
-          // Fetch the PDF for preview (not download)
-          const previewInvoiceResponse = await fetch(
-            `http://localhost:5550/download-pdf/${filename}`,
-            {
-              method: "GET",
-              headers: {
-                "Content-Type": "application/pdf",
-              },
-            }
-          );
-          if (!previewInvoiceResponse.ok) {
-            throw new Error("Failed to load invoice for preview");
-          }
-
-          const pdfBlob = await previewInvoiceResponse.blob();
-          const url = window.URL.createObjectURL(pdfBlob);
+          const pdfUrl = generateInvoiceData.url; // Use the Cloudinary URL
 
           // Open the PDF in a new tab
           const newTab = window.open();
-          newTab.location.href = url;
-
-          // Clean up the blob URL after some time
-          window.URL.revokeObjectURL(url);
+          newTab.location.href = pdfUrl;
         } catch (error) {
           console.error("Error generating or previewing invoice:", error);
         }
       }
     </script>
+
+    <!-- <script>
+      function clearInputFields() {
+        const form = document.getElementById("invoice-form");
+        form.reset();
+        // Additionally, you can clear the items table body
+        const itemsTableBody = document.getElementById("itemsTableBody");
+        itemsTableBody.innerHTML = "";
+        itemIndex = 1; // Reset the item index
+      }
+    </script> -->
   </body>
 </html>
